@@ -1,40 +1,29 @@
+
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
 *.pyo
 *.pyd
-.Python
+*.sqlite3
+
+# Virtual environments
 env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
+
+# Logs
 *.log
 
 # Docker
-Dockerfile
-.dockerignore
+*.dockerfile
+docker-compose.override.yml
 
-# Project
-website/
-output/
-tmp/
-*.tmp
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
+# System files
 .DS_Store
 Thumbs.db
+
+# GitHub Actions cache
+.github/workflows/*.tmp
+
+# Termux temporary files
+*.termux

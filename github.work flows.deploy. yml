@@ -2,30 +2,31 @@ name: Deploy Website
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.9'
 
-      - name: Run deployment script
+      - name: Install dependencies
         run: |
-          python deploy_website.py
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployed-website
-          path: /tmp/deploy_output/
-          retention-days: 7
+      - name: Run deploy script
+        run: python deploy_website.py
+
+      - name: Build Docker image
+        run: docker build -t beginner-devops-bot .
+
+      - name: Run Docker container
+        run: docker run --rm beginner-devops-bot

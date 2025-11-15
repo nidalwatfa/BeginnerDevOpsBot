@@ -1,17 +1,18 @@
-#!/bin/bash
-# BeginnerDevOpsBot - Termux Setup Script
+#!/data/data/com.termux/files/usr/bin/bash
 
-echo "🔧 تثبيت المتطلبات على Termux..."
+echo "🔧 بدء إعداد بيئة Termux..."
+
+# تحديث الحزم
 pkg update -y && pkg upgrade -y
-pkg install python git -y
 
-echo "📥 استنساخ المشروع..."
-git clone https://github.com/nidalwatfa/BeginnerDevOpsBot.git
-cd BeginnerDevOpsBot || exit
+# تثبيت الأدوات الأساسية
+pkg install -y git python docker
 
-echo "🚀 تشغيل النشر..."
-python deploy_website.py
+# التحقق من الإصدارات
+echo "✅ التحقق من الإصدارات:"
+python --version
+git --version
+docker --version
 
-echo "✅ تم النشر في: /tmp/deploy_output"
-echo "افتح الملف: /tmp/deploy_output/index.html"
-echo "استخدم 'termux-open' لفتح المتصفح"
+# رسالة نجاح
+echo "🎉 تم إعداد البيئة بنجاح! يمكنك الآن تشغيل المشروع."

@@ -1,0 +1,30 @@
+================================================================
+FILE: README.md
+================================================================
+# BeginnerDevOpsBot
+
+بوت DevOps بسيط للمبتدئين يساعد في نشر المواقع باستخدام Python و Docker.
+
+---
+
+## الميزات
+- نشر موقع ويب بضغطة واحدة
+- بناء صورة Docker تلقائيًا
+- دعم Termux (Android) وأنظمة Linux
+- مثال تعليمي للمبتدئين في DevOps
+
+---
+
+## المتطلبات
+- Python 3.9+
+- Docker (اختياري)
+- Git
+
+---
+
+## التثبيت
+
+```bash
+git clone https://github.com/nidalwatfa/BeginnerDevOpsBot.git
+cd BeginnerDevOpsBot
+pip install -r requirements.txt

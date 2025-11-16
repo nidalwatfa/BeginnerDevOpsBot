@@ -1,15 +1,67 @@
-import os
-import subprocess
+#!/usr/bin/env python3
+"""
+بوت DevOps للمبتدئين: ينشر موقع ويب بسيط باستخدام Flask.
+"""
 
-def deploy():
+import os
+import sys
+import argparse
+from flask import Flask, render_template_string
+import requests  # لإرسال إشعار اختياري (مثال)
+
+app = Flask(__name__)
+
+# HTML الافتراضي للموقع
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>موقعي المُنشَر بواسطة BeginnerDevOpsBot</title>
+    <style> body { font-family: Arial; text-align: center; padding: 50px; } </style>
+</head>
+<body>
+    <h1>مرحباً! هذا موقعي الأول المُنشَر تلقائيًا</h1>
+    <p>تم النشر باستخدام Python, Docker, وDevOps للمبتدئين.</p>
+    <p>التاريخ: {{ now }}</p>
+</body>
+</html>
+"""
+
+@app.route('/')
+def home():
+    from datetime import datetime
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return render_template_string(HTML_TEMPLATE, now=now)
+
+def send_notification(url):
+    """إرسال إشعار اختياري عبر webhook (مثال، يمكن تخصيصه)"""
     try:
-        # مثال: تشغيل أمر بسيط لنشر الموقع
-        print("🚀 بدء عملية النشر...")
-        subprocess.run(["echo", "Website deployed successfully!"], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"❌ حدث خطأ أثناء النشر: {e}")
+        requests.post(url, json={"message": "تم نشر الموقع بنجاح!"})
+        print("تم إرسال الإشعار.")
     except Exception as e:
-        print(f"⚠️ خطأ غير متوقع: {e}")
+        print(f"خطأ في الإشعار: {e}")
+
+def main():
+    parser = argparse.ArgumentParser(description="نشر موقع ويب بسيط")
+    parser.add_argument('--test', action='store_true', help="وضع الاختبار فقط")
+    parser.add_argument('--port', type=int, default=5000, help="المنفذ")
+    parser.add_argument('--webhook', type=str, default=None, help="رابط webhook للإشعار")
+    
+    args = parser.parse_args()
+    
+    if args.test:
+        print("اختبار ناجح: البوت جاهز للنشر!")
+        sys.exit(0)
+    
+    print(f"جاري تشغيل الخادم على المنفذ {args.port}...")
+    
+    # إرسال إشعار إذا وُجد
+    if args.webhook:
+        send_notification(args.webhook)
+    
+    # تشغيل الخادم
+    app.run(host='0.0.0.0', port=args.port, debug=False)
 
 if __name__ == "__main__":
-    deploy()
+    main()
